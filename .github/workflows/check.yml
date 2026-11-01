@@ -5,8 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
-      - run: python3 scripts/check.py
-      - run: python3 -m unittest discover -s tests
+          node-version: "22"
+      - run: npm run check
+      - run: npm test

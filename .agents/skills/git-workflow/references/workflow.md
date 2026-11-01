@@ -17,7 +17,7 @@ protected_branches 是 review 模式防止直接交付的提示清单，不代�
 
 ## 开始与同步
 
-1. 核对修改文件的真实 Git 根、当前分支、远端身份、默认分支、upstream、工作树、索引、未推送提交、冲突、进行中的 Git 操作和 worktree 占用。先执行 `python3 scripts/git-check.py`（若该目标仓库提供），再按实际工具补查远端状态。
+1. 核对修改文件的真实 Git 根、当前分支、远端身份、默认分支、upstream、工作树、索引、未推送提交、冲突、进行中的 Git 操作和 worktree 占用。先执行 `node scripts/git-check.mjs`（若该目标仓库提供），再按实际工具补查远端状态。
 2. 有既有修改时保留并识别归属；能分离则只做本任务，存在重叠先补齐事实。不自动 stash、reset、clean、覆盖、切走他人 worktree 或改写历史。
 3. read-only 不执行同步；其他模式仅在任务允许网络同步时 fetch。工作树/索引干净、无未推送提交和 Git 操作时，可对核验后的目标执行 `git pull --ff-only`；分叉或保护失败保留现场，不自动 rebase。
 4. review 模式从核验后的 base 建 `codex/<主题>` 分支。旧任务分支仅在确认属于同一任务时复用；不把其他任务的提交带入本次 PR。远端查询失败不猜 base、head 或创建重复 PR。
