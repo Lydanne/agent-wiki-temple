@@ -9,7 +9,7 @@
     "uid": "README",
     "owner": null,
     "created_at": "2026-11-01T12:16:38+08:00",
-    "updated_at": "2026-11-01T12:40:19+08:00",
+    "updated_at": "2026-11-01T04:52:35.580Z",
     "relations": []
   }
 }
@@ -21,8 +21,10 @@
 
 复制后修改 bundle.json 的 bundle_id/title/owner（如需），删除或改写示例来源与 Feature，重新填写文档 UID、实际时间、来源和负责人。保留未知值与 draft，不将模板或检查通过视为业务事实。
 
-验证：`python3 scripts/check.py`、`python3 -m unittest discover -s tests`（也可使用 npm run check/test）。无需网络、企业 CLI 或安装依赖。元数据使用 JSON 兼容的 YAML Front Matter，所有正文和索引采用同一明确契约。
+验证：`node scripts/check.mjs`、`npm test`（也可使用 npm run check/test）。无需网络、企业 CLI 或安装依赖。元数据使用 JSON 兼容的 YAML Front Matter，所有正文和索引采用同一明确契约。
 
 此实现只检查本仓库约定，不是完整 OKF 认证。结构对照及通用化范围见 [设计来源](ORIGIN.md)。
 
 Git 工作模式在 git-policy.json 配置，默认 review；执行前读取 [Git 技能](.agents/skills/git-workflow/SKILL.md)。
+
+默认脚本运行时为 Node.js 22+，无需 npm install 即可执行 npm run check、npm test 和 npm run git:check。Python 为按任务需要选择的可选语言，不是本模板依赖。
