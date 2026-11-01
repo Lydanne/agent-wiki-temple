@@ -8,8 +8,9 @@ def require(ok,msg):
  if not ok: errors.append(msg)
 if (root/'bundle.json').exists():
  b=json.loads((root/'bundle.json').read_text());require(b.get('schema_version')==1,'bundle schema');require(bool(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*',b.get('bundle_id',''))),'bundle_id')
+ excluded=set(b.get('exclude_directories',[]))|{'.git','.tmp','node_modules'}
  for p in root.rglob('*.md'):
-  if any(x in p.relative_to(root).parts for x in ['.git','.agents','.tmp','node_modules']):continue
+  if any(x in excluded for x in p.relative_to(root).parts):continue
   s=p.read_text();m=re.match(r'^---\n(.*?)\n---\n',s,re.S)
   try:d=json.loads(m[1]) if m else {};x=d.get('x_agent',{})
   except Exception: errors.append(str(p)+': invalid JSON-compatible YAML metadata');continue
