@@ -29,7 +29,7 @@ test('auto merge cannot be silently enabled', t => {
   assert.notEqual(check(repo).status, 0);
 });
 const wikiRoot = repo => existsSync(join(repo, 'bundle.json')) ? repo : join(repo, 'wiki');
-for (const kind of ['missing-metadata', 'duplicate-uid', 'broken-link', 'unreviewed-stable', 'unknown-relation', 'invalid-time']) test(`knowledge rejection: ${kind}`, t => {
+for (const kind of ['missing-metadata', 'duplicate-uid', 'broken-link', 'unreviewed-stable', 'unknown-relation', 'invalid-time', 'invalid-calendar']) test(`knowledge rejection: ${kind}`, t => {
   const repo = fixture(t), wiki = wikiRoot(repo), file = join(wiki, 'README.md');
   const text = readFileSync(file, 'utf8');
   if (kind === 'missing-metadata') writeFileSync(file, '# No metadata');
@@ -37,6 +37,7 @@ for (const kind of ['missing-metadata', 'duplicate-uid', 'broken-link', 'unrevie
   if (kind === 'broken-link') appendFileSync(file, '\n[missing](not-found.md)\n');
   if (kind === 'unreviewed-stable') writeFileSync(file, text.replace('"draft"', '"stable"'));
   if (kind === 'unknown-relation') writeFileSync(file, text.replace('"relations": []', '"relations": [{"type":"references","target_uid":"missing"}]'));
+  if (kind === 'invalid-calendar') writeFileSync(file, text.replace(/\"updated_at\": \"[^\"]+\"/, '\"updated_at\":\"2026-02-30T12:00:00+08:00\"'));
   if (kind === 'invalid-time') writeFileSync(file, text.replace(/"updated_at": "[^"]+"/, '"updated_at":"unknown"'));
   assert.notEqual(check(repo).status, 0);
 });

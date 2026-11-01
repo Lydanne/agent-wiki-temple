@@ -37,7 +37,15 @@ export function validate(directory) {
       require(typeof x.uid === 'string' && x.uid.length > 0, `${path}: uid`);
       require(!uids.has(x.uid), `${path}: duplicate uid`); uids.add(x.uid);
       require(['draft', 'stable', 'deprecated'].includes(d.status), `${path}: status`);
-      const date = value => typeof value === 'string' && /(?:Z|[+-]\d{2}:\d{2})$/.test(value) && Number.isFinite(Date.parse(value));
+      const date = value => {
+        if (typeof value !== 'string') return false;
+        const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.exec(value);
+        if (!m) return false;
+        const [, year, month, day, hour, minute, second] = m.map(Number);
+        const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+        const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        return year > 0 && month >= 1 && month <= 12 && day >= 1 && day <= days[month - 1] && hour < 24 && minute < 60 && second < 60 && Number.isFinite(Date.parse(value));
+      };
       require(date(x.created_at) && date(x.updated_at) && Date.parse(x.updated_at) >= Date.parse(x.created_at), `${path}: timestamps`);
       require(Array.isArray(x.relations), `${path}: relations`);
       require(Array.isArray(d.sources), `${path}: sources`);
