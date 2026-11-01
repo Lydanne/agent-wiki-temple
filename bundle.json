@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "bundle_id": "example-project",
+  "title": "项目知识库",
+  "entrypoint": "index.md",
+  "scope": "single-project",
+  "metadata_namespace": "x_agent",
+  "exclude_directories": [
+    ".agents",
+    ".opencode",
+    ".codex",
+    ".git",
+    ".tmp"
+  ]
+}
