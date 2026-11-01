@@ -45,7 +45,16 @@ if (root/'project.json').exists():
 if (root/'project.json').exists() and (root/'wiki/bundle.json').exists():
  import subprocess
  require(subprocess.run([sys.executable,str(Path(__file__).resolve()),str(root/'wiki')],capture_output=True).returncode==0,'wiki seed metadata')
+policy_file=root/'project.json' if (root/'project.json').exists() else root/'git-policy.json'
+if policy_file.exists():
+ policy=json.loads(policy_file.read_text())
+ if policy_file.name=='project.json':policy=policy.get('git',{})
+ require(policy.get('delivery') in ['read-only','local','direct','review'],'git delivery mode')
+ require(policy.get('auto_merge') is False,'auto merge must remain disabled')
+ require(policy.get('sync')=='ff-only','sync policy')
+ require(isinstance(policy.get('branch_prefix'),str) and bool(policy['branch_prefix']),'branch prefix')
 for p in root.glob('.agents/skills/*/SKILL.md'):
+
  s=p.read_text();require(bool(re.match(r'^---\nname: [a-z0-9-]+\ndescription: .+\n---',s)),str(p)+': skill discovery metadata')
 print('\n'.join(errors) if errors else 'PASS: metadata, IDs, relations, local links, project policy and skills')
 sys.exit(bool(errors))

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "delivery": "review",
+  "auto_merge": false,
+  "branch_prefix": "codex/",
+  "sync": "ff-only",
+  "commit_format": "conventional",
+  "protected_branches": [
+    "main",
+    "master",
+    "develop"
+  ]
+}
