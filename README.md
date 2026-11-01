@@ -9,7 +9,7 @@
     "uid": "README",
     "owner": null,
     "created_at": "2026-11-01T12:16:38+08:00",
-    "updated_at": "2026-11-01T12:16:38+08:00",
+    "updated_at": "2026-11-01T12:40:19+08:00",
     "relations": []
   }
 }
@@ -24,3 +24,5 @@
 验证：`python3 scripts/check.py`、`python3 -m unittest discover -s tests`（也可使用 npm run check/test）。无需网络、企业 CLI 或安装依赖。元数据使用 JSON 兼容的 YAML Front Matter，所有正文和索引采用同一明确契约。
 
 此实现只检查本仓库约定，不是完整 OKF 认证。结构对照及通用化范围见 [设计来源](ORIGIN.md)。
+
+Git 工作模式在 git-policy.json 配置，默认 review；执行前读取 [Git 技能](.agents/skills/git-workflow/SKILL.md)。
